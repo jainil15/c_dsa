@@ -230,6 +230,16 @@ int64_t get_count(LinkedList *list) {
   return count;
 }
 
+void clear_list(LinkedList *list) {
+  if (list->head == -1) {
+    return;
+  }
+  list->nodes[list->tail].next_index = list->free_head;
+  list->free_head = list->head;
+  list->head = -1;
+  list->tail = -1;
+}
+
 int main() {
   LinkedList *list = new_list();
   insert_first(list, 10);
@@ -240,6 +250,7 @@ int main() {
   insert_last(list, 20);
   delete_last(list);
   delete_first(list);
+  clear_list(list);
   insert_last(list, 10);
   insert_last(list, 80);
   insert_last(list, 11);
@@ -250,7 +261,7 @@ int main() {
   insert_last(list, 20);
   insert_last(list, 20);
   print_list(list);
-  printf("At 2 : %ld\n", get_count(list));
+  printf("Count: %ld\n", get_count(list));
   free_list(list);
   return 0;
 }
